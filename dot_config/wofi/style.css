@@ -1,0 +1,30 @@
+* {
+    /* margin: 0;
+    padding: 0; */
+    box-sizing: border-box;
+    border-radius: 0;
+    border: none;
+}
+
+#window {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    border: 1px solid darkcyan;
+}
+
+#input {
+    background-color: rgba(0, 0, 0, 0.0);
+    color: white;
+    border-right: 1px solid darkcyan;
+}
+
+#entry {
+    /* min-width: 100px; */
+    outline: none;
+    padding: 0px 20px;
+}
+
+#entry:selected {
+    background-color: rgba(0, 139, 139, 0.647);
+    min-height: 48px;
+}

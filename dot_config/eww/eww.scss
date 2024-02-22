@@ -1,0 +1,369 @@
+$spotify-bg: rgb(18, 134, 59);
+$spotify-bg-high: rgb(40, 166, 73);
+$spotify-fg: rgb(30, 215, 96);
+$spotify-fg-high: rgb(24, 250, 103);
+
+$accent: crimson;
+// $accent-high: rgba(0, 139, 139, 0.671);
+// $accent-mid: rgba(0, 139, 139, 0.518);
+// $accent-low: rgba(0, 139, 139, 0.403);
+
+$accent-high: mix($accent, transparent, 90);
+$accent-mid: mix($accent, transparent, 70);
+$accent-low: mix($accent, transparent, 50);
+
+.sidebar {
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: 1px solid $accent;
+}
+
+.sidebar button {
+    border-radius: 0px;
+    border: none;
+    box-shadow: none;
+    text-shadow: none;
+    background-image: none;
+    color: white;
+    transition: none;
+}
+
+.sidebar button:hover {
+    background-color: $accent-mid;
+}
+
+.workspaces button.current {
+    background-color: $accent-high;
+}
+
+.window-title {
+    margin-left: 5px;
+}
+
+.hidden {
+    color: rgba(0, 0, 0, 0)
+}
+
+.spotify-progress, .spotify-progress * {
+    margin: 0px;
+    padding: 0px;
+    border-radius: 0;
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+}
+
+.spotify-progress.active trough {
+    min-width: 36px;
+    background-color: $spotify-bg;
+}
+
+.spotify-progress.active.playing trough {
+    animation: 3s linear infinite pulse-bg;
+}
+
+.spotify-progress.active progress {
+    min-width: 36px;
+    background-color: $spotify-fg;
+}
+.spotify-progress.active.playing progress {
+    animation: 3s linear infinite pulse-fg;
+}
+
+.spotify-artist-pos {
+    font-size: x-small;
+    margin: 4px 0px 3px 2px;
+    min-height: 200px;
+}
+
+.spotify-title-pos {
+    font-size: small;
+    margin: 3px 4px 3px 0px;
+}
+
+.spotify-artist, .spotify-title {
+    color: black;
+}
+
+button.same-workspace {
+    background-color: $accent-low;
+}
+
+button.active {
+    background-color: $accent-high;
+}
+
+
+
+.volume {
+    background-color: $accent;
+    margin: 5px;
+    margin-bottom: 0px;
+    padding-top: 3px;
+    font-family: "Fira Code";
+    color: white;
+}
+
+.volume.muted {
+    background-color: rgb(77, 55, 55);
+}
+
+.volume label.muted {
+    text-decoration: line-through;
+}
+
+.battery {
+    background-color: $accent;
+    margin: 5px;
+    margin-bottom: 0px;
+    padding-top: 3px;
+    font-family: "Fira Code";
+}
+
+.battery.low {
+    background-color: red;
+}
+
+.clock {
+    background-color: $accent;
+    margin: 5px;
+    font-family: "Fira Code";
+    color: white;
+}
+
+@keyframes pulse-bg {
+	0% {
+        background: linear-gradient(
+            to bottom,
+            $spotify-bg -100%,
+            $spotify-bg-high -50%,
+            $spotify-bg 0%,
+        );
+    }
+
+    12.5% {
+        
+        background: linear-gradient(
+            to bottom,
+            $spotify-bg -75%,
+            $spotify-bg-high -25%,
+            $spotify-bg 25%,
+        );
+    }
+
+    25% {
+        
+        background: linear-gradient(
+            to bottom,
+            $spotify-bg -50%,
+            $spotify-bg-high 0%,
+            $spotify-bg 50%,
+        );
+    }
+
+    37.5% {
+        
+        background: linear-gradient(
+            to bottom,
+            $spotify-bg -25%,
+            $spotify-bg-high 25%,
+            $spotify-bg 75%,
+        );
+    }
+
+    50% {
+        
+        background: linear-gradient(
+            to bottom,
+            $spotify-bg 0%,
+            $spotify-bg-high 50%,
+            $spotify-bg 100%,
+        );
+    }
+    62.5% {
+        
+        background: linear-gradient(
+            to bottom,
+            $spotify-bg 25%,
+            $spotify-bg-high 75%,
+            $spotify-bg 125%,
+        );
+    }
+    
+    75% {
+        
+        background: linear-gradient(
+            to bottom,
+            $spotify-bg 50%,
+            $spotify-bg-high 100%,
+            $spotify-bg 150%,
+        );
+    }
+
+    87.5% {
+        
+        background: linear-gradient(
+            to bottom,
+            $spotify-bg 75%,
+            $spotify-bg-high 125%,
+            $spotify-bg 175%,
+        );
+    }
+
+    100% {
+        
+        background: linear-gradient(
+            to bottom,
+            $spotify-bg 100%,
+            $spotify-bg-high 150%,
+            $spotify-bg 200%,
+        );
+    }
+}
+
+@keyframes pulse-fg {
+	0% {
+        background: linear-gradient(
+            to bottom,
+            $spotify-fg -100%,
+            $spotify-fg-high -50%,
+            $spotify-fg 0%,
+        );
+    }
+
+    12.5% {
+        
+        background: linear-gradient(
+            to bottom,
+            $spotify-fg -75%,
+            $spotify-fg-high -25%,
+            $spotify-fg 25%,
+        );
+    }
+
+    25% {
+        
+        background: linear-gradient(
+            to bottom,
+            $spotify-fg -50%,
+            $spotify-fg-high 0%,
+            $spotify-fg 50%,
+        );
+    }
+
+    37.5% {
+        
+        background: linear-gradient(
+            to bottom,
+            $spotify-fg -25%,
+            $spotify-fg-high 25%,
+            $spotify-fg 75%,
+        );
+    }
+
+    50% {
+        
+        background: linear-gradient(
+            to bottom,
+            $spotify-fg 0%,
+            $spotify-fg-high 50%,
+            $spotify-fg 100%,
+        );
+    }
+    62.5% {
+        
+        background: linear-gradient(
+            to bottom,
+            $spotify-fg 25%,
+            $spotify-fg-high 75%,
+            $spotify-fg 125%,
+        );
+    }
+    
+    75% {
+        
+        background: linear-gradient(
+            to bottom,
+            $spotify-fg 50%,
+            $spotify-fg-high 100%,
+            $spotify-fg 150%,
+        );
+    }
+
+    87.5% {
+        
+        background: linear-gradient(
+            to bottom,
+            $spotify-fg 75%,
+            $spotify-fg-high 125%,
+            $spotify-fg 175%,
+        );
+    }
+
+    100% {
+        
+        background: linear-gradient(
+            to bottom,
+            $spotify-fg 100%,
+            $spotify-fg-high 150%,
+            $spotify-fg 200%,
+        );
+    }
+}
+
+
+
+
+.spotifyExpand {
+}
+
+.spotify-button-row {
+    background: linear-gradient(to bottom,
+        rgba(0,0,0,0.0),
+        rgba(0, 0, 0, 0.25) 25%,
+        rgba(0, 0, 0, .5),
+    );
+    // background-color: black;
+}
+
+.spotify-button-row button {
+    background: none;
+    border: none;
+    box-shadow: none;
+    color: $spotify-fg;
+    padding: 20px;
+}
+
+.spotify-button-row button * {
+    text-shadow: 0px 0px 20px $spotify-bg;
+}
+.spotify-button-row button:hover * {
+    text-shadow: 0px 0px 10px $spotify-fg-high;
+}
+
+.album-art {
+    border: 1px solid $spotify-fg-high;
+}
+
+.spotify-overlay {
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 1.0),
+        rgba(0, 0, 0, 0.0) 33%);
+    border-radius: 0px;
+    padding-top: 20px;
+    padding-bottom: 0px;
+    // padding: 20px;
+    color: $spotify-fg;
+    font-size: small;
+    text-shadow: 0px 0px 20px;
+    box-shadow: 0px 0px 40px black;
+    margin: 1px;
+}
+
+.spotify-overlay * {
+    text-shadow: 0px 0px 3px $spotify-fg;
+}
+
+.spotify-overlay *:first-child {
+    font-size: xx-large;
+}

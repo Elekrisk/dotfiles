@@ -1,0 +1,155 @@
+(defwindow spotifyExpand
+    :monitor 0
+    :geometry (geometry :x "5px" :y "0px" :anchor "center left")
+    :stacking "fg"
+    :exclusive false
+    :focusable false
+    (overlay
+        (image :class "album-art" :image-width 400 :path "/home/elekrisk/.config/eww/album.png")
+        (box :orientation "v" :class "spotify-overlay" 
+            (box :orientation "v" :space-evenly false :width 0 :height 0
+                (label :text { spotifyMetadata["xesam:title"] })
+                (label :text { spotifyMetadata["xesam:artist"] })
+            )
+            
+            (box :orientation "h" :valign "end" :class "spotify-button-row"
+                (button :onclick "playerctl -p spotify previous" "")
+                (button :onclick "playerctl -p spotify play-pause" { spotifyMetadata["status"] == "Playing" ? "" : "" })
+                (button :onclick "playerctl -p spotify next" "")
+            )
+            )))
+
+(defwindow sidebar
+           :monitor 0
+           :geometry (geometry :x "5px"
+                               :y "0px"
+                               ;:width "300px"
+                               :height "1070"
+                               :anchor "center left")
+           :stacking "fg"
+           :exclusive true
+           :focusable false
+  (centerbox :orientation "vertical"
+    (top)
+    (center)
+    (bottom)))
+
+(defwidget top []
+    (box :orientation "vertical" :space-evenly false :valign "start"
+        (workspaces)
+        (taskbar)
+    )
+)
+
+
+(defwidget center []
+    (box :orientation "vertical" :space-evenly false :valign "center"
+        (spotify)
+    )
+)
+
+(defwidget bottom []
+    (box :orientation "vertical" :space-evenly false :valign "end"
+        (audio)
+        (battery :amnt { EWW_BATTERY == "" ? "" : EWW_BATTERY?.BAT1?.capacity })
+        (clock)
+    )
+)
+
+(defwidget workspaces []
+    (box :orientation "vertical" :space-evenly false :class "workspaces"
+        (for test in {workspacesJson.workspaces} 
+            (button :active { test.id != workspacesJson.active }
+                    :class { test.id == workspacesJson.active ? "current" : "" }
+                    :onclick "hyprctl dispatch workspace ${test.id}"
+                {test.id})))
+)
+
+(defwidget taskbar []
+    (box :orientation "vertical"
+         :class "taskbar"
+         :space-evenly false
+        (for test in { windowsJson.windows }
+            (button
+                   :tooltip { test.title }
+                   :onclick "hyprctl dispatch focuswindow address:${test.address}"
+                   :active { test.address != windowsJson.active_window }
+                   :class "${ test.address == windowsJson.active_window ? "active" : "" } ${ test.workspace == workspacesJson.active ? "same-workspace" : "" }"
+                   { test.icon }))))
+
+(defwidget spotify []
+    (eventbox
+        :onclick "~/.config/eww/toggle_spotify_expand.py"
+        (overlay
+            (box :orientation "horizontal"
+                 :class "hidden"
+                 :space-evenly false
+                 :visible { spotifyMetadata["running"] }
+                (label :text "${ spotifyMetadata["xesam:artist"] }"
+                       :class "spotify-artist-pos"
+                       :angle 270
+                       :gravity "auto"
+                       ;:limit-width 20
+                       )
+                (label :text "${ spotifyMetadata["xesam:title"] }"
+                       :class "spotify-title-pos"
+                       :angle 270
+                       :gravity "auto"))
+            (progress :orientation "v" 
+                      :value { 100 * spotifyMetadata["position"] / spotifyMetadata["mpris:length"] }
+                      :class "spotify-progress ${ spotifyMetadata["running"] ? "active" : "" } ${ spotifyMetadata["status"] == "Playing" ? "playing" : "" }")
+            (box :orientation "horizontal"
+                 :space-evenly false
+                (label :text "${ spotifyMetadata["xesam:artist"] }"
+                       :class "spotify-artist spotify-artist-pos"
+                       :angle 270
+                       :gravity "auto"
+                       ;:limit-width 20
+                       )
+                (label :text "${ spotifyMetadata["xesam:title"] }"
+                       :class "spotify-title spotify-title-pos"
+                       :angle 270
+                       :gravity "auto")))))
+
+(defwidget audio []
+    (box :orientation "vertical"
+         :class "volume ${ audio.muted ? "muted" : "" }"
+         :space-evenly false
+        ""
+        (label :class { audio.muted ? "muted" : "" } :text { audio.volume })))
+
+(defwidget battery [amnt]
+    (box :orientation "vertical" :visible { amnt != "" }
+         :class "battery ${ amnt != "" ? (amnt <= 20 ? "low" : "") : "hidden"}"
+         :space-evenly false
+        ""
+        (label :text { amnt })))
+
+(defwidget clock []
+    (label :class "clock" :text time))
+
+(deflisten audio
+    :initial '{ "muted": false, "volume": "00" }'
+    `~/.config/eww/volume.py`)
+
+(defpoll time :interval "1s" :initial "00:00" `date +%H\\\\n%M`)
+
+(deflisten workspacesJson
+    :initial '{"active": 1, "workspaces": []}'
+    `~/.config/eww/workspaces.py`
+)
+
+(deflisten windowsJson
+    :initial '{"active": "", "windows": []}'
+    `~/.config/eww/windows.py`
+)
+
+(deflisten activeWindow
+    :initial '{"class": "null", "title": "null"}'
+    `~/.config/eww/active_window.py`
+)
+
+(deflisten spotifyMetadata
+    :initial '{"running": false, "status": "Stopped", "position": 0, "mpris:length": 1}'
+    `~/.config/eww/spotify.py`
+)
